@@ -18,3 +18,6 @@ Non-blocking (Asynchronous) MySQL Connector
    <version>0.0.1-SNAPSHOT</version>
  </dependency> 
 ```
+
+You can find usage exmaples here 
+https://code.google.com/p/async-mysql-connector/w/list
