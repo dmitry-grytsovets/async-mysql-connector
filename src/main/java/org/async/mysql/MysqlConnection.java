@@ -105,7 +105,9 @@ public class MysqlConnection implements ChannelProcessor, AsyncConnection,
 		Utils.writeLong(out, MysqlDefs.CLIENT_LONG_PASSWORD
 				| MysqlDefs.CLIENT_CONNECT_WITH_DB
 				| MysqlDefs.CLIENT_PROTOCOL_41
-				| MysqlDefs.CLIENT_SECURE_CONNECTION, 4);
+				| MysqlDefs.CLIENT_SECURE_CONNECTION
+				| MysqlDefs.CLIENT_MULTI_RESULTS
+				, 4);
 		Utils.writeLong(out, 65536, 4);
 		Utils.writeLong(out, 33, 1);
 		Utils.filler(out, 23);
@@ -354,8 +356,8 @@ public class MysqlConnection implements ChannelProcessor, AsyncConnection,
 									key.interestOps(SelectionKey.OP_WRITE);
 							}
 						} else if (result instanceof OK) {
-							authorized = true;
-							Callback callback = callbacks.remove(0);
+							authorized = true;							
+                            Callback callback = callbacks.remove(0);
 							if (callback != null) {
 								((SuccessCallback) callback)
 										.onSuccess((OK) result);
@@ -460,7 +462,7 @@ public class MysqlConnection implements ChannelProcessor, AsyncConnection,
 		}
 	}
 
-	public void query(Query q, Callback callback) throws SQLException {
+	public void query(Query q, Callback... callbackList) throws SQLException {
 		if (isClosed())
 			throw new SQLException(
 					" No operations allowed after connection closed.");
@@ -468,8 +470,9 @@ public class MysqlConnection implements ChannelProcessor, AsyncConnection,
 			key.interestOps(SelectionKey.OP_WRITE);
 		}
 		queries.add(q);
-		callbacks.add(callback);
-
+		for (Callback callback : callbackList) {
+			callbacks.add(callback);
+		}
 	}
 
 	public void query(SilentQuery q) throws SQLException {

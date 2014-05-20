@@ -52,6 +52,8 @@ public class Test {
 								+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;",
 						successCallback);
 		st.executeUpdate("TRUNCATE test",successCallback);
+		st.executeUpdate("DROP procedure IF EXISTS test_procedure;", successCallback);
+		st.executeUpdate("CREATE PROCEDURE test_procedure () BEGIN select * from test; END", successCallback);
 		PreparedStatement insert = connection
 		.prepareStatement("INSERT INTO test SET varchar0=?,date0=?");
 		insert.executeUpdate(new PreparedQuery() {
@@ -88,6 +90,9 @@ public class Test {
 
 		}, rsCallback);
 		ps.close();
+		
+		st.executeCall("CALL test_procedure()", rsCallback, successCallback);
+		
 		connection.close();
 		while (true) {
 			mpx.select();

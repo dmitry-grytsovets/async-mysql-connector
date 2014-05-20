@@ -9,7 +9,7 @@ import org.async.jdbc.Query;
 import org.async.mysql.SilentQuery;
 
 public interface InnerConnection extends Connection {
-	void query(Query query, Callback callback) throws SQLException;
+	void query(Query query, Callback... callback) throws SQLException;
 
 	void query(SilentQuery query) throws SQLException;
 

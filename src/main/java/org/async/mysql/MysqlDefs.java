@@ -21,6 +21,9 @@ public class MysqlDefs {
 	public static int CLIENT_SECURE_CONNECTION = 32768;
 	public static int CLIENT_MULTI_STATEMENTS = 65536;
 	public static int CLIENT_MULTI_RESULTS = 131072;
+	
+	// http://dev.mysql.com/doc/internals/en/status-flags.html
+	public static int SERVER_MORE_RESULTS_EXISTS = 8; // More results will be sent by server
 
 	public static int COM_SLEEP = 0x00; // (none, this is an internal thread
 										// state)

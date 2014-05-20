@@ -42,4 +42,16 @@ public class StatementImpl implements Statement {
 
 	}
 
+	public void executeCall(final String sql, ResultSetCallback rsCallback,
+			SuccessCallback sucCallback) throws SQLException {
+		connection.query(new Query() {
+
+			public void query(Connection connection) throws SQLException {
+				connection.query(sql);
+
+			}
+
+		}, rsCallback, sucCallback);
+	}
+
 }
