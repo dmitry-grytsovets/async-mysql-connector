@@ -125,7 +125,7 @@ public abstract class AbstractResultSet<T> implements ResultSet, HasState {
 	private int getIdx(String name) {
 		int i=0;
 		for(Field f:fields) {
-			if(f.getName().equals(name)) return i+1;
+			if(f.getName().equalsIgnoreCase(name)) return i+1;
 			i++;
 		}
 		return 0;
